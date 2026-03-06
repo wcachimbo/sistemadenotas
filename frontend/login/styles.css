@@ -1,0 +1,167 @@
+/* ===============================
+   RESET BÁSICO
+=============================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===============================
+   FONDO GENERAL
+=============================== */
+body {
+    background: linear-gradient(to right, #e0f7fa, #ffffff);
+    color: #333;
+    padding: 20px;
+}
+
+/* ===============================
+   CABECERA
+=============================== */
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #00bcd4;
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 1rem;
+}
+
+/* ===============================
+   FORMULARIOS
+=============================== */
+form {
+    background-color: #f1f1f1;
+    padding: 20px;
+    margin: 0 auto 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #00bcd4;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+form button:hover {
+    background-color: #0097a7;
+}
+
+/* ===============================
+   TABLAS
+=============================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background-color: #fafafa;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #00bcd4;
+    color: white;
+}
+
+table tr:hover {
+    background-color: #e0f7fa;
+}
+
+/* ===============================
+   BOTONES
+=============================== */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* ===============================
+   SECCIONES
+=============================== */
+section {
+    margin-bottom: 20px;
+}
+
+/* ===============================
+   PROMEDIO ESTUDIANTE
+=============================== */
+.promedio {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: right;
+}
+
+/* ===============================
+   FILTROS ESTUDIANTE
+=============================== */
+.filtros {
+    margin-bottom: 15px;
+}
+
+.filtros label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.filtros input {
+    margin-right: 10px;
+    padding: 5px;
+}
+
+/* ===============================
+   FOOTER
+=============================== */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: #555;
+}

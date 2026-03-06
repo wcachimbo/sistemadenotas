@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Administrador</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>Panel del Administrador</h1>
+    <p id="bienvenida"></p>
+    <button onclick="cerrarSesion()">Cerrar Sesión</button>
+</header>
+
+<main>
+
+    <!-- CREAR USUARIO -->
+    <section>
+        <h2>Crear Usuario</h2>
+        <form id="formCrearUsuario">
+            <label>Nombre Completo</label>
+            <input type="text" id="nombreCompleto" required>
+
+            <label>Usuario</label>
+            <input type="text" id="nuevoUsuario" required>
+
+            <label>Contraseña</label>
+            <input type="password" id="nuevaContrasena" required>
+
+            <label>Rol</label>
+            <select id="nuevoRol" required>
+                <option value="">-- Selecciona --</option>
+                <option value="profesor">Profesor</option>
+                <option value="estudiante">Estudiante</option>
+            </select>
+
+            <button type="submit">Crear Usuario</button>
+        </form>
+    </section>
+
+    <!-- LISTA DE USUARIOS -->
+    <section>
+        <h2>Usuarios Registrados</h2>
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                </tr>
+            </thead>
+            <tbody id="tablaUsuarios">
+            </tbody>
+        </table>
+    </section>
+
+</main>
+
+<script src="java.js"></script>
+</body>
+</html>
