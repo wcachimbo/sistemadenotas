@@ -6,13 +6,40 @@ const Group = require('../models/Group'); // Necesitamos el modelo de Grupo
 // CREAR un nuevo profesor
 router.post('/', async (req, res) => {
   try {
+    const {
+      identification,
+      typeIdentification,
+      name,
+      lastname,
+      professorship,
+      user,
+      password,
+      status
+    } = req.body;
+
+    if (!identification || !typeIdentification || !name || !lastname || !professorship || !user || !password) {
+      return res.status(400).json({
+        message: 'Faltan campos requeridos: identification, typeIdentification, name, lastname, professorship, user, password'
+      });
+    }
+
     const teacher = new Teacher({
-      name: req.body.name,
-      subject: req.body.subject
+      identification,
+      typeIdentification,
+      name,
+      lastname,
+      professorship,
+      user,
+      password,
+      status: typeof status === 'boolean' ? status : true
     });
+
     const newTeacher = await teacher.save();
     res.status(201).json(newTeacher);
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ message: 'identification o user ya existe' });
+    }
     res.status(400).json({ message: err.message });
   }
 });

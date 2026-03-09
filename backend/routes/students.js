@@ -7,14 +7,33 @@ const Student = require('../models/Student');
 // CREAR un nuevo estudiante
 router.post('/', async (req, res) => {
   try {
-    // El campo "course" ya no existe, un estudiante se crea "vacío"
-    // y luego se inscribe en grupos.
+    const { identification, name, lastname, user, password, status } = req.body;
+
+    if (!identification || !name || !lastname || !user || !password) {
+      return res.status(400).json({
+        message: 'Faltan campos requeridos: identification, name, lastname, user, password'
+      });
+    }
+
+    console.log('Iniciar creacion de estudiante:', req.body);
     const student = new Student({
-      name: req.body.name
+      identification,
+      name,
+      lastname,
+      user,
+      password,
+      status: typeof status === 'boolean' ? status : true
     });
+
     const newStudent = await student.save();
+    console.log('Estudiante creado con exito:', newStudent._id.toString());
     res.status(201).json(newStudent);
+
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ message: 'identification o user ya existe' });
+    }
+    console.error('Error creando estudiante:', err.message);
     res.status(400).json({ message: err.message });
   }
 });

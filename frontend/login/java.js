@@ -13,43 +13,97 @@ if (!localStorage.getItem("usuarios")) {
         }
     ];
     localStorage.setItem("usuarios", JSON.stringify(usuariosIniciales));
+    console.log("Admin creado por defecto");
+
 }
 
 
 // ===============================
 // LOGIN
 // ===============================
-document.getElementById("formLogin").addEventListener("submit", function(event) {
+const rutasPorRol = {
+    admin: "../admin/panelAdmin.html",
+    profesor: "../teacher/Panelprofesor.html",
+    estudiante: "../student/panelestudiante.html"
+};
+
+const formLogin = document.getElementById("formLogin");
+if (formLogin) {
+formLogin.addEventListener("submit", async function(event) {
     event.preventDefault();
 
+    console.log("Iniciando login para los datos..", formLogin)
     const rolSeleccionado = document.getElementById("rol").value;
-    const usuarioIngresado = document.getElementById("usuario").value;
-    const contrasenaIngresada = document.getElementById("contrasena").value;
+    const usuarioIngresado = document.getElementById("usuario").value.trim();
+    const contrasenaIngresada = document.getElementById("contrasena").value.trim();
 
-    if (rolSeleccionado === "") {
-        alert("Debes seleccionar un rol");
+    // Login local para admin (manejado en localStorage)
+    if (rolSeleccionado === "admin") {
+        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+        const admin = usuarios.find(
+            (u) =>
+                u.usuario === usuarioIngresado &&
+                u.contrasena === contrasenaIngresada &&
+                u.rol === "admin"
+        );
+
+        if (admin) {
+            localStorage.setItem("usuarioActivo", JSON.stringify(admin));
+            window.location.href = rutasPorRol.admin;
+        } else {
+            alert("Credenciales de administrador inválidas");
+        }
         return;
     }
 
-    const usuariosGuardados = JSON.parse(localStorage.getItem("usuarios"));
+    try {
+        const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: usuarioIngresado,
+                password: contrasenaIngresada,
+                role: rolSeleccionado
+            })
+        });
 
-    const usuarioEncontrado = usuariosGuardados.find(function(u){
-        return u.usuario === usuarioIngresado &&
-               u.contrasena === contrasenaIngresada &&
-               u.rol === rolSeleccionado;
-    });
+        const data = await response.json();
 
-    if(usuarioEncontrado){
-        localStorage.setItem("usuarioActivo", JSON.stringify(usuarioEncontrado));
+        if (data.success) {
+            const rolDesdeBackend =
+                data.role === "teacher" ? "profesor" :
+                data.role === "student" ? "estudiante" :
+                "";
 
-        if(rolSeleccionado === "admin") window.location.href = "panelAdmin.html";
-        else if(rolSeleccionado === "profesor") window.location.href = "panelProfesor.html";
-        else if(rolSeleccionado === "estudiante") window.location.href = "panelEstudiante.html";
+            if (!rolDesdeBackend) {
+                alert("Rol no reconocido en el servidor");
+                return;
+            }
 
-    } else {
-        alert("Usuario, contraseña o rol incorrecto");
+            if (rolSeleccionado !== rolDesdeBackend) {
+                alert("El rol seleccionado no coincide con el usuario");
+                return;
+            }
+
+            const usuarioSesion = {
+                usuario: usuarioIngresado,
+                nombreCompleto: data.name || usuarioIngresado,
+                rol: rolDesdeBackend
+            };
+
+            localStorage.setItem("usuarioActivo", JSON.stringify(usuarioSesion));
+            window.location.href = rutasPorRol[rolDesdeBackend];
+        } else {
+            alert(data.message || 'Login failed');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('An error occurred during login.');
     }
 });
+}
 
 
 // ===============================
@@ -123,7 +177,7 @@ function mostrarUsuarios(){
 // Cerrar sesión admin
 function cerrarSesion(){
     localStorage.removeItem("usuarioActivo");
-    window.location.href = "index.html";
+    window.location.href = "../login/index.html";
 }
 
 
@@ -228,7 +282,7 @@ function eliminarNota(index){
 
 function cerrarSesionProfesor(){
     localStorage.removeItem("usuarioActivo");
-    window.location.href = "index.html";
+    window.location.href = "../login/index.html";
 }
 
 
@@ -297,5 +351,5 @@ function filtrarNotas(){
 
 function cerrarSesionEstudiante(){
     localStorage.removeItem("usuarioActivo");
-    window.location.href = "index.html";
+    window.location.href = "../login/index.html";
 }

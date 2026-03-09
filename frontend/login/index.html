@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Sistema Académico - Inicio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/login/styles.css">
 </head>
 <body class="fondo">
     <main class="contenedor-login">
@@ -24,11 +24,11 @@
 
             <!-- Usuario -->
             <label for="usuario">Usuario</label>
-            <input type="text" id="usuario" required>
+            <input type="text" id="usuario" autocomplete="username" required>
 
             <!-- Contraseña -->
             <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" required>
+            <input type="password" id="contrasena" autocomplete="current-password" required>
 
             <button type="submit" id="btnLogin">Iniciar Sesión</button>
         </form>
@@ -38,6 +38,6 @@
         <p>&copy; 2026 - Sistema Académico | Stiven / Kevin / Wilmar / Lore</p>
     </footer>
 
-    <script src="java.js"></script>
+    <script src="/login/java.js"></script>
 </body>
 </html>
